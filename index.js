@@ -64,17 +64,15 @@ const post = async () => {
             if (content[i].type == "/links") {
                 data = {
                     access_token: token,
-                    message: content[i].message + " "+ content[i].link,
+                    message: content[i].message + " " + content[i].link,
                     url: 'https://source.unsplash.com/random/600x600?sig=1'
                 }
             }
 
-            let type = ""
+            let type = "/photos"
 
-            if (content[i].type == "/feed" || content[i].type == "/links") {
-                type = "/photos"
-            } else {
-                type = content[i].type
+            if (content[i].type == "/videos") {
+                type = "/videos"
             }
 
             axios.post("https://graph.facebook.com/" + group + type, data).then((res) => {
