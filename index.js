@@ -22,7 +22,8 @@ const post = async () => {
                     type: item.type == "status" ? "/feed" : "/" + item.type + "s",
                     message: item.message,
                     source: item.source,
-                    picture: item.picture
+                    picture: item.picture,
+                    link: item.link
                 })
             }
         }).catch((error) => {
@@ -57,11 +58,24 @@ const post = async () => {
                 data = {
                     access_token: token,
                     message: content[i].message,
-                    url: content[i].picture
+                    url: 'https://source.unsplash.com/random/600x600?sig=1'
+                }
+            }
+            if (content[i].type == "/links") {
+                data = {
+                    access_token: token,
+                    message: content[i].message + " "+ content[i].link,
+                    url: 'https://source.unsplash.com/random/600x600?sig=1'
                 }
             }
 
-            let type = content[i].type == "/feed" ? "/photos" : content[i].type
+            let type = ""
+
+            if (content[i].type == "/feed" || content[i].type == "/links") {
+                type = "/photos"
+            } else {
+                type = content[i].type
+            }
 
             axios.post("https://graph.facebook.com/" + group + type, data).then((res) => {
                 message("success", "Thành công post ID: " + res.data.id)
