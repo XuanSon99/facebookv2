@@ -3,23 +3,13 @@ function sleep(ms) {
 }
 const post = async () => {
     try {
-        // let tokens = document.querySelector("#token").value.split("|")
+        let tokens = document.querySelector("#token").value.split("|")
         let group_list = document.querySelector("#group_list").value.split("|")
         let group_clone = document.querySelector("#group_clone").value
         let token_clone = document.querySelector("#token_clone").value
 
         let notifi = document.querySelector(".notification")
         notifi.style.display = "block"
-
-        let list_token = await axios.get(
-            "https://sheets.googleapis.com/v4/spreadsheets/1AKkKbR1FcKIfoO0EGqETJkXVTEq_by02GPZcpVTXDlA/values/Worksheet!A1:A100?key=AIzaSyAAUda1-y7m8HYDOrDBr_-rqdMtf9TJZRI"
-        ).then(res => {
-            return res.data.values
-        })
-        let tokens = []
-        for (let item of list_token) {
-            tokens.push(item[0])
-        }
 
         let content = []
         await axios.get("https://graph.facebook.com/" + group_clone + "/feed", {
