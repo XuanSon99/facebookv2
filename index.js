@@ -2,14 +2,20 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 const post = async () => {
-    try {
-        let tokens = document.querySelector("#token").value.split("|")
+    // try {
         let group_list = document.querySelector("#group_list").value.split("|")
         let group_clone = document.querySelector("#group_clone").value
         let token_clone = document.querySelector("#token_clone").value
+        let type_via = document.querySelector("#type_via").value
 
         let notifi = document.querySelector(".notification")
         notifi.style.display = "block"
+
+        let tokens = await axios.get(
+            "https://sheets.googleapis.com/v4/spreadsheets/" + type_via + "/values/Worksheet!A1:A100?key=AIzaSyAAUda1-y7m8HYDOrDBr_-rqdMtf9TJZRI"
+        ).then(res => {
+            return res.data.values
+        })
 
         let content = []
         await axios.get("https://graph.facebook.com/" + group_clone + "/feed", {
@@ -29,14 +35,11 @@ const post = async () => {
         }).catch((error) => {
             console.log(error);
         })
-        console.log(content);
 
         for (let i = 0; i < content.length; i++) {
             let group = group_list[Math.floor(Math.random() * group_list.length)]
-            let token = tokens[Math.floor(Math.random() * tokens.length)]
-            if (!token) {
-                return;
-            }
+            let token = tokens[Math.floor(Math.random() * tokens.length)][0]
+
             message("start", "Bắt đầu đăng lên group: " + group)
 
             let data = {}
@@ -91,11 +94,11 @@ const post = async () => {
             }, 1000);
             await sleep(30000)
         }
-    } catch (error) {
-        if (confirm("Click oki to see the tutorial")) {
-            window.open("https://docs.google.com/document/d/1P0bfxQ9H9Tv9Z6ChdyHso8Rg_spa-LhY68LwR280Qac/edit?usp=sharing")
-        }
-    }
+    // } catch (error) {
+    //     if (confirm("Click oki to see the tutorial")) {
+    //         window.open("https://docs.google.com/document/d/1P0bfxQ9H9Tv9Z6ChdyHso8Rg_spa-LhY68LwR280Qac/edit?usp=sharing")
+    //     }
+    // }
 }
 const get_group_list = () => {
     axios.get("https://graph.facebook.com/me/groups", {
