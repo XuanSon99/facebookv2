@@ -18,7 +18,7 @@ const post = async () => {
         })
 
         let content = []
-        await axios.get("https://graph.facebook.com/" + group_clone + "/feed", {
+        await axios.get("http://graph.facebook.com/" + group_clone + "/feed", {
             params: {
                 access_token: token_clone
             }
@@ -81,7 +81,7 @@ const post = async () => {
             axios.post("https://graph.facebook.com/" + group + type, data).then((res) => {
                 message("success", "Thành công post ID: " + res.data.id)
             }).catch((error) => {
-                message("error", "Không thành công group: " + group)
+                // message("error", "Không thành công group: " + group)
             })
             let time = 30
             let cowndown = setInterval(() => {
