@@ -18,7 +18,7 @@ const post = async () => {
         })
 
         let content = []
-        await axios.get("http://graph.facebook.com/" + group_clone + "/feed", {
+        await axios.get("https://graph.facebook.com/" + group_clone + "/feed", {
             params: {
                 access_token: token_clone
             }
